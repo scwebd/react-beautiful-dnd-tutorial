@@ -8,15 +8,15 @@ const Container = styled.div`
     border: 1px solid lightgray;
     border-radius: 2px;
     box-sizing: border-box;
-    margin: 8px;
+    margin: 0.5em;
     width: 30%;
 `;
 const Title = styled.h3`
-    padding: 8px;
+    padding: 0.5em;
 `;
 const TaskList = styled.ul`
     list-style-type: none;
-    padding: 8px;
+    padding: 0.5em;
 `;
 
 export default class Column extends Component {

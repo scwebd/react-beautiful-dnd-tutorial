@@ -20,8 +20,9 @@ class App extends Component {
     state = initialData;
 
     onDragEnd = result => {
-        // ?????
+        console.log(result);
         const { destination, source, draggableId } = result;
+        var newState; // seems inefficient... but I want function scoping, so???
 
         if (!destination) {
             return false;
@@ -31,24 +32,55 @@ class App extends Component {
             return false;
         }
 
-        const column = this.state.columns[source.droppableId];
-        const newTaskIds = Array.from(column.taskIds);
-        newTaskIds.splice(source.index, 1);
-        newTaskIds.splice(destination.index, 0, draggableId);
+        // TODO: There's *got* to be a better way to do this; too much duplicated code...
+        // if user is moving between columns
+        if (destination.droppableId !== source.droppableId) {
+            const oldColumn = this.state.columns[source.droppableId];
+            const newColumn = this.state.columns[destination.droppableId];
 
-        const newColumn = {
-            ...column,
-            taskIds: newTaskIds
-        }
+            const oldColumnTaskIds = Array.from(oldColumn.taskIds);
+            const newColumnTaskIds = Array.from(newColumn.taskIds);
+            oldColumnTaskIds.splice(source.index, 1);
+            newColumnTaskIds.splice(destination.index, 0, draggableId);
 
-        const newState = {
-            ...this.state,
-            columns: {
-                ...this.state.columns,
-                [newColumn.id]: newColumn
+            const oldColumnAltered = {
+                ...oldColumn,
+                taskIds: oldColumnTaskIds
+            }
+
+            const newColumnAltered = {
+                ...newColumn,
+                taskIds: newColumnTaskIds
+            }
+
+            newState = {
+                ...this.state,
+                columns: {
+                    ...this.state.columns,
+                    [oldColumn.id]: oldColumnAltered,
+                    [newColumn.id]: newColumnAltered
+                }
+            }
+        // or if the user is instead just moving within the existing columns
+        } else {
+            const column = this.state.columns[source.droppableId];
+            const newTaskIds = Array.from(column.taskIds);
+            newTaskIds.splice(source.index, 1);
+            newTaskIds.splice(destination.index, 0, draggableId);
+
+            const newColumn = {
+                ...column,
+                taskIds: newTaskIds
+            }
+
+            newState = {
+                ...this.state,
+                columns: {
+                    ...this.state.columns,
+                    [newColumn.id]: newColumn
+                }
             }
         }
-
         this.setState(newState);
     }
 

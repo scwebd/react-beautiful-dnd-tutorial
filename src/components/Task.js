@@ -6,8 +6,8 @@ const Container = styled.li`
     background-color: #fff;
     border: 1px solid lightgray;
     border-radius: 2px;
-    padding: 8px;
-    margin-bottom: 8px;
+    padding: 0.5em;
+    margin-bottom: 0.5em;
 `
 
 export default class Task extends Component {
