@@ -1,10 +1,20 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { DragDropContext } from 'react-beautiful-dnd';
+import styled from 'styled-components';
 import registerServiceWorker from './registerServiceWorker';
 import initialData from './initial-data';
 import '@atlaskit/css-reset';
 import Column from './components/Column';
+
+const Container = styled.div`
+    align-content: space-around;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+`
 
 class App extends Component {
     state = initialData;
@@ -45,12 +55,14 @@ class App extends Component {
     render() {
         return (
             <DragDropContext onDragEnd={this.onDragEnd}>
-                {this.state.columnOrder.map(columnId => {
-                    const column = this.state.columns[columnId];
-                    const tasks = column.taskIds.map(taskId => this.state.tasks[taskId]);
+                <Container>
+                    {this.state.columnOrder.map(columnId => {
+                        const column = this.state.columns[columnId];
+                        const tasks = column.taskIds.map(taskId => this.state.tasks[taskId]);
 
-                    return <Column key={column.id} column={column} tasks={tasks} />;
-                })}
+                        return <Column key={column.id} column={column} tasks={tasks} />;
+                    })}
+                </Container>
             </DragDropContext>
         )
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Draggable } from 'react-beautiful-dnd'; 
 
-const Container = styled.div`
+const Container = styled.li`
     background-color: #fff;
     border: 1px solid lightgray;
     border-radius: 2px;
